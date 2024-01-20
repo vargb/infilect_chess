@@ -2,14 +2,11 @@ from django.db import models
 from django.http import JsonResponse
 from dataclasses import dataclass
 import json
-from typing import Dict
-import logging
+from . import loggy
 from .chess import getBishopMoves, getKnightMoves, getQueenMoves, getRookMoves
 
 
 # Create your models here.
-
-loggy = logging.getLogger(__name__)
 
 
 @dataclass

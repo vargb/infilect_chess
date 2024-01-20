@@ -1,3 +1,7 @@
+from .models import loggy
+from . import loggy
+
+
 def is_valid(position):
     col, row = position[0], int(position[1 : len(position)])
     return "a" <= col <= "h" and 1 <= row <= 8
@@ -9,10 +13,12 @@ def append_if_valid(moves, position):
 
 
 def getQueenMoves(initPos: str) -> list:
+    loggy.info("getting moves for queen")
     return getBishopMoves(initPos) + getRookMoves(initPos)
 
 
 def getRookMoves(initPos: str) -> list:
+    loggy.info("getting moves for rook")
     moves = []
     col, row = initPos[0], int(initPos[1])
 
@@ -26,6 +32,7 @@ def getRookMoves(initPos: str) -> list:
 
 
 def getBishopMoves(initPos: str) -> list:
+    loggy.info("getting moves for bishop")
     moves = []
     col, row = initPos[0], int(initPos[1])
 
@@ -39,6 +46,7 @@ def getBishopMoves(initPos: str) -> list:
 
 
 def getKnightMoves(initPos: str) -> list:
+    loggy.info("gettin moves for knight")
     moves = []
     col, row = initPos[0], int(initPos[1])
 
