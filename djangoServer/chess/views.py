@@ -23,4 +23,3 @@ def listValidMoves(request, piece_name):
 
     except (json.JSONDecodeError, KeyError, TypeError) as e:
         return JsonResponse({"error": "error in gettin em in dataclasses"})
-    return
