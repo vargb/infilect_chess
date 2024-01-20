@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from dataclasses import dataclass
 import json
 from . import loggy
-from .chess import getBishopMoves, getKnightMoves, getQueenMoves, getRookMoves
+from .chess import getBishopMoves, getKnightMoves, getQueenMoves, getRookMoves, is_valid
 
 
 # Create your models here.
@@ -39,10 +39,17 @@ def getPos(request) -> Pos:
                     )
                 )
 
-                return chess_data_instance
+                if (
+                    is_valid(chess_data_instance.pos.queen)
+                    and is_valid(chess_data_instance.pos.bishop)
+                    and is_valid(chess_data_instance.pos.rook)
+                    and is_valid(chess_data_instance.pos.knight)
+                ):
+                    return chess_data_instance
         except (json.JSONDecodeError, KeyError, TypeError) as e:
             loggy.error("error in parsing to json", e)
             raise e
+        raise KeyError
 
     loggy.error("return an error response, somethings up check it out")
     raise JsonResponse({"error": "Invalid request method"}, status=400)
