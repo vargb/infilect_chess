@@ -21,10 +21,12 @@ def listValidMoves(request, piece_name):
             if key != piece_name:
                 for i in value:
                     if i in validMoves:
-                        validMoves.remove(i)
+                        validMoves.remove(i)           
 
         loggy.info("returning reponse...")
         return JsonResponse({"ValidMoves - " + piece_name: validMoves})
 
     except (json.JSONDecodeError, KeyError, TypeError) as e:
         return JsonResponse({"error": "error in gettin em in dataclasses"})
+            
+    

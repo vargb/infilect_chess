@@ -1,6 +1,4 @@
-from .models import loggy
 from . import loggy
-
 
 def is_valid(position):
     col, row = position[0], int(position[1 : len(position)])
@@ -12,41 +10,69 @@ def append_if_valid(moves, position):
         moves.append(position)
 
 
-def getQueenMoves(initPos: str) -> list:
+def getQueenMoves(initPos: str,pieceList:list) -> list:
     loggy.info("getting moves for queen")
-    return getBishopMoves(initPos) + getRookMoves(initPos)
+    return getBishopMoves(initPos,pieceList) + getRookMoves(initPos,pieceList)
 
 
-def getRookMoves(initPos: str) -> list:
+def getRookMoves(initPos: str,pieceList:list) -> list:
     loggy.info("getting moves for rook")
     moves = []
     col, row = initPos[0], int(initPos[1])
-
-    for i in range(1, 8):
-        append_if_valid(moves, chr(ord(col) + i) + str(row))
-        append_if_valid(moves, chr(ord(col) - i) + str(row))
-        append_if_valid(moves, col + str(row + i))
-        append_if_valid(moves, col + str(row - i))
+    
+    first,second,third,fourth=True,True,True,True
+    
+    for i in range(1,8):
+        if first:
+            if (chr(ord(col)+i)+str(row)) in pieceList:
+                first=False
+            append_if_valid(moves,chr(ord(col)+i)+str(row))
+        if second:
+            if (chr(ord(col)-i)+str(row)) in pieceList:
+                second=False
+            append_if_valid(moves,chr(ord(col)-i)+str(row))
+        if third:
+            if col+str(row+i) in pieceList:
+                third=False
+            append_if_valid(moves,col+str(row+i))
+        if fourth:
+            if col+str(row-i) in pieceList:
+                fourth=False
+            append_if_valid(moves,col+str(row-i))
 
     return moves
 
 
-def getBishopMoves(initPos: str) -> list:
+def getBishopMoves(initPos: str,pieceList:list) -> list:
     loggy.info("getting moves for bishop")
     moves = []
     col, row = initPos[0], int(initPos[1])
-
+    
+    first,second,third,fourth=True,True,True,True
+    
     for i in range(1, 8):
-        append_if_valid(moves, chr(ord(col) + i) + str(row + i))
-        append_if_valid(moves, chr(ord(col) + i) + str(row - i))
-        append_if_valid(moves, chr(ord(col) - i) + str(row + i))
-        append_if_valid(moves, chr(ord(col) - i) + str(row - i))
+        if first:
+            if (chr(ord(col) + i) + str(row + i)) in pieceList:
+                first=False
+            append_if_valid(moves, chr(ord(col) + i) + str(row + i))
+        if second:
+            if (chr(ord(col) + i) + str(row - i)) in pieceList:
+                second=False
+            append_if_valid(moves, chr(ord(col) + i) + str(row - i))
+        if third:
+            if (chr(ord(col) - i) + str(row + i)) in pieceList:
+                third=False
+            append_if_valid(moves, chr(ord(col) - i) + str(row + i))
+        if fourth:
+            if (chr(ord(col) - i) + str(row - i)) in pieceList:
+                fourth=False
+            append_if_valid(moves, chr(ord(col) - i) + str(row - i))
 
     return moves
 
 
-def getKnightMoves(initPos: str) -> list:
-    loggy.info("gettin moves for knight")
+def getKnightMoves(initPos: str,pieceList:dict) -> list:
+    loggy.info("getting moves for knight")
     moves = []
     col, row = initPos[0], int(initPos[1])
 

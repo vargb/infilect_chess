@@ -1,4 +1,3 @@
-from django.db import models
 from django.http import JsonResponse
 from dataclasses import dataclass
 import json
@@ -57,8 +56,17 @@ def getPos(request) -> Pos:
 
 def getMoves(getpos: Pos):
     moves = {"queen": [], "knight": [], "bishop": [], "rook": []}
-    moves["knight"] = getKnightMoves(getpos.pos.knight)
-    moves["queen"] = getQueenMoves(getpos.pos.queen)
-    moves["bishop"] = getBishopMoves(getpos.pos.bishop)
-    moves["rook"] = getRookMoves(getpos.pos.rook)
+    moves["knight"] = getKnightMoves(getpos.pos.knight,getList(getpos,"knight"))
+    moves["queen"] = getQueenMoves(getpos.pos.queen,getList(getpos,"queen"))
+    moves["bishop"] = getBishopMoves(getpos.pos.bishop,getList(getpos,"bishop"))
+    moves["rook"] = getRookMoves(getpos.pos.rook,getList(getpos,"rook"))
     return moves
+
+def getList(getpos:Pos,piece:str)->list:
+    pieceList={"queen":getpos.pos.queen,"knight":getpos.pos.knight,"bishop":getpos.pos.bishop,"rook":getpos.pos.rook}
+    excluding=[]
+    for key,value in pieceList.items():
+        if key!=piece:
+            excluding.append(value)
+    return excluding
+
